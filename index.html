@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚽ WORLD CUP IMPOSTOR 2026 🏆</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FFD700">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'field-green': '#2E7D32',
+                        'grass-light': '#4CAF50',
+                        'grass-dark': '#1B5E20',
+                        'gold': '#FFD700',
+                        'silver': '#C0C0C0',
+                        'bronze': '#CD7F32',
+                        'ball-black': '#2C3E50',
+                        'ball-white': '#ECF0F1',
+                    },
+                    fontFamily: {
+                        'sans': ['Poppins', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'spin-slow': 'spin 4s linear infinite',
+                        'shake': 'shake 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        shake: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(5deg)' },
+                            '75%': { transform: 'rotate(-5deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(145deg, #1B5E20 0%, #2E7D32 50%, #1B5E20 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Soccer field pattern in background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 21px),
+                repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 21px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 420px;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 0;
+            border: 4px solid #FFD700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* World Cup stars decoration */
+        .container::before,
+        .container::after {
+            content: "★";
+            position: absolute;
+            font-size: 24px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .container::before {
+            top: 10px;
+            left: 10px;
+            transform: rotate(-15deg);
+        }
+        
+        .container::after {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(15deg);
+        }
+        
+        .button {
+            padding: 1rem 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border-radius: 60px;
+            background: linear-gradient(145deg, #FFD700, #FBBF24);
+            color: #1B5E20;
+            border: 3px solid white;
+            box-shadow: 0 8px 0 #B8860B, 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.1s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .button:hover {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #B8860B, 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* ALL PLAYER CARDS HAVE THE SAME DESIGN - NO COLOR DIFFERENCE */
+        .player-card {
+            background: linear-gradient(145deg, #FFD700, #FBBF24);
+            border: 4px solid white;
+            border-radius: 60px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 0 #B8860B, 0 20px 30px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            color: #1B5E20;
+        }
+
+        .player-card h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 0 white;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
+        }
+
+        .player-card .word-display {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 40px;
+            display: inline-block;
+            box-shadow: inset 0 -4px 0 #B8860B;
+            border: 3px solid #B8860B;
+            color: #1B5E20;
+            max-width: 100%;
+            word-wrap: break-word;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 380px) {
+            .player-card {
+                padding: 1rem;
+                border-radius: 40px;
+            }
+            .player-card h2 {
+                font-size: 1.5rem;
+            }
+            .player-card .word-display {
+                font-size: 1.8rem;
+                padding: 0.5rem 1rem;
+                border-radius: 30px;
+            }
+        }
+
+        .coin-toss {
+            width: 80px;
+            height: 80px;
+            margin: 15px auto;
+            position: relative;
+            animation: bounce-slow 1s infinite, spin-slow 2s linear infinite;
+        }
+
+        .coin-toss::before {
+            content: "🏆";
+            font-size: 60px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .select-input {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23FFD700"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+            border: 3px solid #FFD700 !important;
+            border-radius: 60px !important;
+            font-weight: 600;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container" class="container">
+        <h1 id="main-title" class="text-4xl font-black text-center mb-4" style="color: #1B5E20; text-shadow: 3px 3px 0 #FFD700;">
+            ⚽ WORLD CUP<br>IMPOSTOR 2026 🏆
+        </h1>
+
+        <div id="game-screens" class="flex-grow flex flex-col justify-center items-center text-center"></div>
+
+        <p id="footer-note" class="text-sm font-bold text-center mt-6" style="color: #B8860B;">
+            ⚡ PASS THE PHONE • KEEP THE SECRET • HAVE FUN! ⚡
+        </p>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').catch(console.log);
+            });
+        }
+        
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const NUM_QUESTION_ROUNDS = 3;
+
+        const CATEGORY_KEYS = {
+            ALL: 'ALL',
+            COUNTRIES_2026: 'COUNTRIES',
+            WC_OBJECTS: 'OBJECTS'
+        };
+
+        const texts = {
+            title: "🏆IMPOSTOR - WORLD CUP 2026 🏆",
+            select_category: "CHOOSE CATEGORY:",
+            category_ALL: "🎲 SURPRISE MIX",
+            category_COUNTRIES: "🌍 WORLD CUP 2026 COUNTRIES",
+            category_OBJECTS: "⚽ WORLD CUP ELEMENTS",
+            player_count: "HOW MANY PLAYERS?",
+            select_impostor_count: "NUMBER OF IMPOSTORS:",
+            impostor_count_random: "🎲RANDOM ",
+            button_start_distribution: "▶ KICK OFF",
+            player: "PLAYER",
+            instruction_reveal: "GRAB THE PHONE & REVEAL YOUR WORD!",
+            button_reveal_my_word: "REVEAL MY WORD",
+            instruction_dont_show: "TOP SECRET! DON'T SHOW ANYONE!",
+            impostor: "🤫 IMPOSTOR 🤫",
+            title_your_word_is: "YOUR WORD IS: ",
+            instruction_memorize: "MEMORIZE IT WELL!",
+            button_next_player: " NEXT PLAYER ⏭️ ",
+            button_ready_to_choose_mode: "EVERYONE READY! CONTINUE",
+            title_choose_mode: "CHOOSE GAME MODE",
+            instruction_roles_distributed: "EVERYONE HAS THEIR ROLE!",
+            title_coin_toss: "🎲 COIN TOSS",
+            instruction_coin_toss: "DRAWING THE STARTING PLAYER...",
+            coin_toss_result: "PLAYER {PLAYER} STARTS THE ROUND!",
+            button_continue_to_mode: "CONTINUE TO GAME MODE",
+            mode_discussion: " OPEN DEBATE",
+            mode_discussion_desc: "Talk freely & find the impostor",
+            mode_questions: "QUESTION TIME",
+            mode_questions_desc: "3 rounds of questions",
+            button_restart: " NEW MATCH",
+            title_discussion_open: " OPEN DEBATE!",
+            instruction_start_debate: "DISCUSS AND FIND THE IMPOSTOR!",
+            instruction_word_hidden: " THERE IS AN IMPOSTOR AMONG US",
+            instruction_reveal_click: " CLICK AFTER VOTING TO REVEAL",
+            button_reveal_word: "UNMASK THE IMPOSTOR",
+            title_round: "ROUND",
+            question_for_all: " QUESTION FOR EVERYONE:",
+            instruction_answer_one_by_one: "Each player answers in turn",
+            button_start_round: "▶ NEXT ROUND",
+            button_end_questions: " TIME TO VOTE!",
+            title_voting: "VOTING TIME!",
+            instruction_questions_end: "Debate quickly and vote!",
+            title_word_revealed: "THE TRUTH IS OUT!",
+            instruction_word_was: "The secret word was:",
+            button_start_new_game: "PLAY AGAIN",
+            error_title: "⚠️ ERROR",
+            error_min_players: "Minimum 3 players needed!",
+            error_empty_wordlist: "Word list is empty",
+            error_impostor_count: "Maximum [M] impostors for [P] players",
+            button_understood: "OK",
+            footer_note: "⚽ WORLD CUP 2026⚽",
+        };
+
+        const wordBank = {
+            [CATEGORY_KEYS.COUNTRIES_2026]: [
+                "CANADA", "UNITED STATES", "MEXICO", "BRAZIL", "ARGENTINA", "URUGUAY","COLOMBIA", "ECUADOR", "PARAGUAY", "GERMANY", "FRANCE", "SPAIN", 
+                "ENGLAND", "PORTUGAL", "NETHERLANDS", "BELGIUM", "CROATIA", "SWITZERLAND","AUSTRIA", "NORWAY", "SCOTLAND", "JAPAN", "SOUTH KOREA", "AUSTRALIA", 
+                "IRAN", "SAUDI ARABIA", "QATAR", "JORDAN", "UZBEKISTAN", "EGYPT","MOROCCO", "TUNISIA", "SENEGAL", "GHANA", "IVORY COAST", "ALGERIA", 
+                "SOUTH AFRICA", "CAPE VERDE", "PANAMA", "HAITI", "CURACAO", "NEW ZEALAND"
+            ],
+            
+            [CATEGORY_KEYS.WC_OBJECTS]: [
+                "TROPHY", "BALL", "CLEATS", "SHIN GUARDS", "GLOVES", "WHISTLE", "YELLOW CARD", "RED CARD", 
+                "ARMBAND", "JERSEY", "TICKET", "MASCOT", "STICKER ALBUM", "STICKER", "VUVUZELA", "HORN", 
+                "SCOREBOARD", "NET", "CREST", "MEDAL", "WALL", "SOCKS", "GATORADE", "TRACKSUIT", 
+                "FLAG", "MIC", "CAMERA", "PENALTY", "GOAL", "VAR", "STOPWATCH", "LINESMAN", 
+                "STADIUM", "BLEACHERS", "BENCH", "ANNOUNCER", "PLAYER", "TOP SCORER", "REFEREE", 
+                "COACH", "BALL BOY", "CAPTAIN", "GOALKEEPER", "COMMENTATOR", "FAN", "FOUL", 
+                "OFFSIDE", "THROW-IN", "CORNER KICK", "RED CARD", "OVERTIME", "HALF-TIME", 
+                "ROUT", "DRIBBLE", "TACKLE", "OWN GOAL", "SUBSTITUTION", "LOCKER ROOM", 
+                "TRAINING CAMP", "PITCH", "GOALPOST"
+            ]
+        };
+
+        const questionBank = {
+            [CATEGORY_KEYS.COUNTRIES_2026]: [
+                "What’s the first feeling that comes to mind in this place?",
+                "What kind of sounds can be heard there?",
+                "What kind of energy does this place have?",
+                "How does it feel to be there alone?",
+                "If this place had a smell, what would it be?",
+                "What do people usually do there without rushing?",
+                "How does time seem to pass in this place?",
+                "What kind of memory does this place awaken?",
+                "How do you feel when leaving this place?",
+                "If this place had a personality, what would it be like?",
+                "What’s something that would never happen there?",
+                "How does it change throughout the day?",
+                "How would you describe the light in this place?",
+                "If this place could speak, what would it say?",
+                "How does this place react to people’s presence?",
+                "What can be heard in the distance when you’re there?",
+                "What feeling stays with you after visiting?",
+                "If this place were an emotion, which one would it be?",
+                "How would it feel to return there after a long time?",
+                "What makes this place unforgettable?"
+            ],
+            [CATEGORY_KEYS.WC_OBJECTS]: [
+                "What’s the feeling of touching this object?",
+                "What kind of sound does it make when used?",
+                "What does it represent to the person who owns it?",
+                "What kind of care does it need?",
+                "If it had a personality, what would it be like?",
+                "What might it ‘think’ about its owner?",
+                "How does it change over time?",
+                "What kind of memory could it hold?",
+                "What would it do if it were free?",
+                "How does it behave when no one’s watching?",
+                "What emotion does this object bring?",
+                "Where would it feel out of place?",
+                "How does it fit into people’s daily lives?",
+                "If it were an animal, which one would it be?",
+                "What would happen if it suddenly disappeared?",
+                "What sound would you hear when someone interacts with it?",
+                "How would it react to being forgotten?",
+                "What kind of story could it tell?",
+                "What makes this object unique?",
+                "How would you know it’s nearby without seeing it?"
+            ]
+        };
+
+        // ============================================
+        // GAME STATE
+        // ============================================
+        let playerCount = 0;
+        let secretWord = "";
+        let secretWordCategory = "";
+        let roles = [];
+        let currentPlayerIndex = 0;
+        let currentQuestionRound = 0;
+        let usedQuestions = [];
+        let startingPlayer = 0;
+
+        const screen = document.getElementById('game-screens');
+
+        function getT(key) {
+            return texts[key] || key;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function getImpostorOptions(maxOption = 10) {
+            let options = '';
+            for (let i = 1; i <= maxOption; i++) {
+                options += `<option value="${i}" ${i === 1 ? 'selected' : ''}>${i}</option>`;
+            }
+            options += `<option value="RANDOM">${getT('impostor_count_random')}</option>`;
+            return options;
+        }
+
+        function renderSetupScreen() {
+            document.getElementById('main-title').textContent = getT('title');
+            document.getElementById('footer-note').textContent = getT('footer_note');
+
+            screen.innerHTML = `
+                <div id="setup-screen" class="space-y-6 w-full max-w-xs">
+                    <div class="text-6xl animate-bounce-slow my-4">⚽</div>
+                    
+                    <p class="text-lg font-black text-gray-800 mt-4">${getT('select_category')}</p>
+                    <select id="game-category" class="select-input w-full p-4 text-center text-xl border-2 border-gold rounded-full font-bold">
+                        <option value="${CATEGORY_KEYS.ALL}">${getT('category_ALL')}</option>
+                        <option value="${CATEGORY_KEYS.COUNTRIES_2026}">${getT('category_COUNTRIES')}</option>
+                        <option value="${CATEGORY_KEYS.WC_OBJECTS}">${getT('category_OBJECTS')}</option>
+                    </select>
+
+                    <p class="text-lg font-black text-gray-800 pt-4">${getT('player_count')}</p>
+                    <input type="number" id="player-count" min="3" value="4" 
+                           class="select-input w-full p-4 text-center text-2xl border-3 border-gold rounded-full font-bold">
+
+                    <p class="text-lg font-black text-gray-800 pt-4">${getT('select_impostor_count')}</p>
+                    <select id="impostor-count" class="select-input w-full p-4 text-center text-xl border-2 border-gold rounded-full font-bold">
+                        ${getImpostorOptions(3)}
+                    </select>
+                    
+                    <button onclick="startGame()" class="button w-full text-xl">
+                        ${getT('button_start_distribution')}
+                    </button>
+                </div>
+            `;
+        }
+
+        window.startGame = function() {
+            const playerCountInput = document.getElementById('player-count');
+            const categorySelect = document.getElementById('game-category');
+            const impostorSelect = document.getElementById('impostor-count');
+            
+            playerCount = parseInt(playerCountInput.value);
+            if (playerCount < 3 || isNaN(playerCount)) {
+                alertModal(getT('error_title'), getT('error_min_players'), 'bg-red-500');
+                return;
+            }
+            
+            const impostorSetting = impostorSelect.value;
+            let numImpostors = 0;
+            const maxImpostors = playerCount - 2;
+
+            if (maxImpostors < 1) {
+                alertModal(getT('error_title'), getT('error_min_players'), 'bg-red-500');
+                return;
+            }
+
+            if (impostorSetting === 'RANDOM') {
+                numImpostors = Math.floor(Math.random() * maxImpostors) + 1;
+            } else {
+                numImpostors = parseInt(impostorSetting);
+                if (isNaN(numImpostors) || numImpostors < 1 || numImpostors > maxImpostors) {
+                    const errorMessage = getT('error_impostor_count').replace('[P]', playerCount).replace('[M]', maxImpostors);
+                    alertModal(getT('error_title'), errorMessage, 'bg-red-500');
+                    return;
+                }
+            }
+            
+            const requestedCategory = categorySelect.value;
+            let wordsToUse = [];
+
+            if (requestedCategory === CATEGORY_KEYS.ALL) {
+                const categoryKeys = [CATEGORY_KEYS.COUNTRIES_2026, CATEGORY_KEYS.WC_OBJECTS];
+                const randomCategoryKey = categoryKeys[Math.floor(Math.random() * categoryKeys.length)];
+                secretWordCategory = randomCategoryKey;
+                wordsToUse = wordBank[randomCategoryKey];
+            } else if (wordBank[requestedCategory]) {
+                secretWordCategory = requestedCategory;
+                wordsToUse = wordBank[requestedCategory];
+            }
+
+            if (!wordsToUse || wordsToUse.length === 0) {
+                alertModal(getT('error_title'), getT('error_empty_wordlist'), 'bg-red-500');
+                return;
+            }
+
+            const wordIndex = Math.floor(Math.random() * wordsToUse.length);
+            secretWord = wordsToUse[wordIndex];
+            
+            roles = Array(playerCount).fill(secretWord);
+            
+            const playerIndices = Array.from({length: playerCount}, (_, i) => i);
+            shuffleArray(playerIndices);
+            
+            for (let i = 0; i < numImpostors; i++) {
+                const impostorIndex = playerIndices[i];
+                roles[impostorIndex] = getT('impostor');
+            }
+            
+            shuffleArray(roles);
+
+            currentPlayerIndex = 0;
+            renderPlayerViewScreen();
+        };
+
+        function renderPlayerViewScreen() {
+            if (currentPlayerIndex >= playerCount) {
+                renderCoinTossScreen();
+                return;
+            }
+            
+            const playerNumber = currentPlayerIndex + 1;
+            
+            screen.innerHTML = `
+                <div class="player-card animate-pulse-slow">
+                    <h2>${getT('player')} ${playerNumber}</h2>
+                    <p class="text-xl font-bold mb-6">${getT('instruction_reveal')}</p>
+                    <button onclick="revealRole()" class="button w-full text-xl mb-4">
+                        ${getT('button_reveal_my_word')}
+                    </button>
+                    <p class="text-sm font-black" style="color: #B8860B;">${getT('instruction_dont_show')}</p>
+                </div>
+            `;
+        }
+
+        window.revealRole = function() {
+            const role = roles[currentPlayerIndex];
+            
+            screen.innerHTML = `
+                <div class="player-card w-full max-w-[90%] mx-auto">
+                    <h2>${getT('player')} ${currentPlayerIndex + 1}</h2>
+                    <p class="text-2xl font-black mb-2">${getT('title_your_word_is')}</p>
+                    <div class="word-display mx-auto my-4">
+                        ${role}
+                    </div>
+                    <p class="text-lg font-bold mt-4">${getT('instruction_memorize')}</p>
+                    <div class="mt-6 flex gap-2 justify-center">
+                        ${Array(5).fill('★').join(' ')}
+                    </div>
+                </div>
+                
+                <button onclick="goToNextPlayer()" class="button w-full mt-6 text-xl">
+                    ${(currentPlayerIndex < playerCount - 1) ? getT('button_next_player') : getT('button_ready_to_choose_mode')}
+                </button>
+            `;
+        };
+
+        window.goToNextPlayer = function() {
+            currentPlayerIndex++;
+            renderPlayerViewScreen();
+        };
+
+        function renderCoinTossScreen() {
+            const finalPlayer = Math.floor(Math.random() * playerCount) + 1;
+            
+            screen.innerHTML = `
+                <div class="player-card">
+                    <h2 class="text-3xl">${getT('title_coin_toss')}</h2>
+                    <div class="coin-toss my-4"></div>
+                    <p class="text-xl font-bold mb-4">${getT('instruction_coin_toss')}</p>
+                    <div id="shuffling-number" class="text-7xl font-black text-gold bg-white p-6 rounded-full border-4 border-gold mb-4">?</div>
+                    <p id="shuffling-text" class="text-lg font-bold">Drawing...</p>
+                </div>
+            `;
+            
+            let shuffleCount = 0;
+            const totalShuffles = 15;
+            const shuffleInterval = 200;
+            
+            const numberDisplay = document.getElementById('shuffling-number');
+            const textDisplay = document.getElementById('shuffling-text');
+            
+            const getRandomPlayer = () => Math.floor(Math.random() * playerCount) + 1;
+            
+            const shuffleTimer = setInterval(() => {
+                shuffleCount++;
+                
+                numberDisplay.textContent = getRandomPlayer();
+                numberDisplay.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    numberDisplay.style.transform = 'scale(1)';
+                }, 100);
+                
+                if (shuffleCount < 5) {
+                    textDisplay.textContent = '⚡ DRAWING... ⚡';
+                } else if (shuffleCount < 10) {
+                    textDisplay.textContent = '🎲 SHUFFLING... 🎲';
+                } else {
+                    textDisplay.textContent = '🤔 WHO WILL IT BE? 🤔';
+                }
+                
+                if (shuffleCount >= totalShuffles) {
+                    clearInterval(shuffleTimer);
+                    
+                    startingPlayer = finalPlayer;
+                    
+                    numberDisplay.textContent = startingPlayer;
+                    numberDisplay.style.background = '#FFD700';
+                    numberDisplay.style.color = '#1B5E20';
+                    
+                    textDisplay.innerHTML = `
+                        <span class="text-3xl font-black">🎉 ${getT('coin_toss_result').replace('{PLAYER}', startingPlayer)} 🎉</span>
+                    `;
+                    
+                    setTimeout(() => {
+                        const buttonContainer = document.createElement('div');
+                        buttonContainer.className = 'mt-6';
+                        buttonContainer.innerHTML = `
+                            <button onclick="renderModeSelectionScreen()" class="button w-full text-xl">
+                                ${getT('button_continue_to_mode')}
+                            </button>
+                        `;
+                        document.querySelector('.player-card').appendChild(buttonContainer);
+                    }, 500);
+                }
+            }, shuffleInterval);
+        }
+
+        function renderModeSelectionScreen() {
+            screen.innerHTML = `
+                <div class="player-card mb-4">
+                    <h2 class="text-3xl">${getT('title_choose_mode')}</h2>
+                    <p class="text-xl font-bold">${getT('instruction_roles_distributed')}</p>
+                    <p class="text-2xl font-black mt-4" style="color: #1B5E20;">⚡ PLAYER ${startingPlayer} STARTS! ⚡</p>
+                </div>
+                
+                <div class="space-y-4 w-full max-w-md mt-2">
+                    <button onclick="startDiscussionMode()" class="button w-full text-lg">
+                        ${getT('mode_discussion')}
+                        <span class="block text-sm font-normal mt-1">${getT('mode_discussion_desc')}</span>
+                    </button>
+                    <button onclick="startQuestionMode()" class="button w-full text-lg" style="background: linear-gradient(145deg, #3B82F6, #2563EB);">
+                        ${getT('mode_questions')}
+                        <span class="block text-sm font-normal mt-1">${getT('mode_questions_desc')}</span>
+                    </button>
+                    <button onclick="window.location.reload()" class="button w-full mt-4 text-lg" style="background: linear-gradient(145deg, #9CA3AF, #6B7280); color: white;">
+                        ${getT('button_restart')}
+                    </button>
+                </div>
+            `;
+            usedQuestions = [];
+            currentQuestionRound = 0;
+        }
+
+        window.startDiscussionMode = function() {
+            screen.innerHTML = `
+                <div class="player-card">
+                    <h2 class="text-3xl">${getT('title_discussion_open')}</h2>
+                    <p class="text-xl font-bold mb-4">${getT('instruction_start_debate')}</p>
+                    <p class="text-2xl font-black mt-2" style="color: #1B5E20;">⚡ PLAYER ${startingPlayer} STARTS! ⚡</p>
+                    <p class="text-lg font-black mt-4">${getT('instruction_word_hidden')}</p>
+                    <p class="text-sm mt-4 opacity-80">${getT('instruction_reveal_click')}</p>
+                </div>
+                <button onclick="revealSecretWord()" class="button w-full mt-6 text-xl">
+                    ${getT('button_reveal_word')}
+                </button>
+                <button onclick="window.location.reload()" class="button w-full mt-4 text-xl" style="background: linear-gradient(145deg, #9CA3AF, #6B7280); color: white;">
+                    ${getT('button_restart')}
+                </button>
+            `;
+        };
+
+        window.startQuestionMode = function() {
+            currentQuestionRound = 1;
+            
+            const categorizedQuestionBank = questionBank[secretWordCategory];
+            
+            if (!categorizedQuestionBank || categorizedQuestionBank.length === 0) {
+                alertModal(getT('error_title'), "No questions available", 'bg-red-500');
+                return;
+            }
+            
+            shuffleArray(categorizedQuestionBank);
+            usedQuestions = categorizedQuestionBank.slice(0, NUM_QUESTION_ROUNDS);
+            
+            renderQuestionRound();
+        };
+
+        function renderQuestionRound() {
+            if (currentQuestionRound > NUM_QUESTION_ROUNDS) {
+                startDiscussionModeFinalStep();
+                return;
+            }
+
+            const currentQuestion = usedQuestions[currentQuestionRound - 1];
+            const nextButtonText = (currentQuestionRound < NUM_QUESTION_ROUNDS) ? 
+                `${getT('button_start_round')}` : 
+                getT('button_end_questions');
+            const nextAction = (currentQuestionRound < NUM_QUESTION_ROUNDS) ? 
+                "goToNextQuestion()" : 
+                "startDiscussionModeFinalStep()";
+
+            screen.innerHTML = `
+                <div class="player-card" style="background: linear-gradient(145deg, #3B82F6, #2563EB);">
+                    <h2 class="text-3xl">${getT('title_round')} ${currentQuestionRound}/${NUM_QUESTION_ROUNDS}</h2>
+                    <p class="text-xl font-bold mb-2">${getT('question_for_all')}</p>
+                    <p class="text-2xl font-black italic bg-white p-4 rounded-full border-4 border-gold">${currentQuestion}</p>
+                    <p class="text-lg font-black mt-4" style="color: #1B5E20;">⚡ PLAYER ${startingPlayer} STARTS! ⚡</p>
+                    <p class="text-sm mt-4">${getT('instruction_answer_one_by_one')}</p>
+                </div>
+                <button onclick="${nextAction}" class="button w-full mt-6 text-xl">
+                    ${nextButtonText}
+                </button>
+            `;
+        }
+
+        window.goToNextQuestion = function() {
+            currentQuestionRound++;
+            renderQuestionRound();
+        };
+
+        function startDiscussionModeFinalStep() {
+            screen.innerHTML = `
+                <div class="player-card">
+                    <h2 class="text-3xl">${getT('title_voting')}</h2>
+                    <p class="text-xl font-bold mb-4">${getT('instruction_questions_end')}</p>
+                    <p class="text-lg font-black">${getT('instruction_word_hidden')}</p>
+                    <p class="text-sm mt-4">${getT('instruction_reveal_click')}</p>
+                </div>
+                <button onclick="revealSecretWord()" class="button w-full mt-6 text-xl">
+                    ${getT('button_reveal_word')}
+                </button>
+                <button onclick="window.location.reload()" class="button w-full mt-4 text-xl" style="background: linear-gradient(145deg, #9CA3AF, #6B7280); color: white;">
+                    ${getT('button_restart')}
+                </button>
+            `;
+        }
+
+// ============================================
+// FINAL REVEAL - MOSTRA QUEM ERA O IMPOSTOR
+// ============================================
+window.revealSecretWord = function() {
+    // Encontra quem eram os impostores
+    let impostorList = [];
+    for (let i = 0; i < roles.length; i++) {
+        if (roles[i] === getT('impostor')) {
+            impostorList.push(`PLAYER ${i + 1}`);
+        }
+    }
+    
+    let impostorText = '';
+    if (impostorList.length === 1) {
+        impostorText = `${impostorList[0]} WAS THE IMPOSTOR!`;
+    } else {
+        impostorText = `THE IMPOSTORS WERE: ${impostorList.join(' & ')}!`;
+    }
+    
+    screen.innerHTML = `
+        <div class="player-card" style="background: linear-gradient(145deg, #FFD700, #FBBF24);">
+            <h2 class="text-3xl">🔍 ${getT('title_word_revealed')} 🔍</h2>
+            <div class="text-4xl font-black my-6 p-4 bg-red-600 text-white rounded-full border-4 border-white animate-pulse-slow">
+                ${impostorText}
+            </div>
+            <p class="text-xl font-bold mb-2">The secret word was:</p>
+            <div class="word-display mx-auto my-4 text-5xl">${secretWord}</div>
+            <div class="mt-4 text-3xl">⚽ ⚽ ⚽ ⚽ ⚽</div>
+        </div>
+        <button onclick="window.location.reload()" class="button w-full mt-6 text-xl">
+            ${getT('button_start_new_game')}
+        </button>
+    `;
+};
+
+        function alertModal(title, message, colorClass) {
+            const modalHTML = `
+                <div id="custom-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50">
+                    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border-4 border-gold">
+                        <div class="flex flex-col items-center">
+                            <h3 class="text-2xl font-black text-red-600">${title}</h3>
+                            <p class="mt-2 text-lg text-gray-800 text-center font-bold">${message}</p>
+                            <button onclick="closeModal()" class="button w-full mt-6 text-xl">
+                                ${getT('button_understood')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+
+        window.closeModal = function() {
+            const modal = document.getElementById('custom-modal');
+            if (modal) modal.remove();
+        };
+
+        window.onload = renderSetupScreen;
+    </script>
+</body>
+</html>
